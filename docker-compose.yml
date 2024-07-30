@@ -3,9 +3,9 @@ services:
 
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
-    container_name: namenode1
+    container_name: namenode-tp
     volumes:
-      - ./hdfs/namenode:/hadoop/dfs/name
+      - ./hdfs/namenode:/hadoop/dfs/names
     environment:
       - CLUSTER_NAME=hive
     env_file:
@@ -15,9 +15,9 @@ services:
 
   datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
-    container_name: datanode1
+    container_name: datanode-tp
     volumes:
-      - ./hdfs/datanode:/hadoop/dfs/data
+      - ./hdfs/datanode:/hadoop/dfs/datas
     env_file:
       - ./hadoop-hive.env
     environment:
@@ -29,9 +29,9 @@ services:
 
   hive-server:
     image: bde2020/hive:2.3.2-postgresql-metastore
-    container_name: hive-server
+    container_name: hive_server
     volumes:
-      - ./employee:/employee
+      - ./taxi_yellow:/taxi_yellow
     env_file:
       - ./hadoop-hive.env
     environment:
@@ -44,7 +44,7 @@ services:
 
   hive-metastore:
     image: bde2020/hive:2.3.2-postgresql-metastore
-    container_name: hive-metastore
+    container_name: hive-metastores
     env_file:
       - ./hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
@@ -57,8 +57,8 @@ services:
 
   hive-metastore-postgresql:
     image: bde2020/hive-metastore-postgresql:2.3.0
-    container_name: hive-metastore-postgresql
+    container_name: hive-metastore-postgresqlserver
     volumes:
-      - ./metastore-postgresql/postgresql/data:/var/lib/postgresql/data
+      - ./metastore-postgresql/postgresql/data:/var/lib/postgresql/datas
     depends_on:
       - datanode
